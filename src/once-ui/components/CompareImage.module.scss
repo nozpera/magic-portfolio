@@ -1,0 +1,17 @@
+.hitArea {
+    cursor: col-resize;
+    transform: translateX(-50%);
+    touch-action: none;
+  }
+  
+.dragIcon {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    cursor: col-resize;
+    z-index: 4;
+    transition: none;
+    pointer-events: auto;
+    touch-action: none;
+}
+

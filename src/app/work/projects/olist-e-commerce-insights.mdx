@@ -1,0 +1,232 @@
+---
+title: "Olist E-Commerce Insights"
+publishedAt: "2025-03-31"
+summary: "Olist E-Commerce Insights: Analyzing Seller Performance & Sales Trends"
+images:
+  - "/images/technical/project1/1.gif"
+  - "/images/technical/project1/2.png"
+  - "/images/technical/project1/3.png"
+  - "/images/technical/project1/4.png"
+team:
+  - name: "Ryan Permana"
+    role: "Data Engineer"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/ahmadryanpermana/"
+link: "https://github.com/nozpera/Olist-E-Commerce-Insights"
+---
+
+# Olist E-Commerce Insights
+
+<p align="center">
+  Olist E-Commerce Insights: Analyzing Seller Performance &amp; Sales Trends
+</p>
+
+![Olist GIF](/images/technical/1.gif)
+
+## Table of Contents
+
+1. [Problem statement](#problem-statement)  
+2. [Project solution](#project-solution)  
+3. [Tech Stack](#tech-stack)  
+4. [Prerequisites](#prerequisites)  
+5. [Datasets](#datasets)  
+6. [Main Process](#main-process)  
+7. [Visualization](#visualization)
+
+## Problem Statement
+
+<div align="justify">
+
+This project aims to analyze the top 5 most popular product categories in the Olist main dataset from 2016 to 2018 and calculate the total revenue generated over these three years. Additionally, it explores the relationship between the main dataset and the marketing funnel dataset to determine the number of sellers who successfully passed the consultant stage (SR).
+
+</div>
+
+## Project Solution
+
+### 1. Data Extraction & Cleaning
+
+<div align="justify">
+
+- Utilized the Olist main dataset (2016-2018) and Marketing Funnel dataset (2017-2018).  
+- Cleaned data by removing duplicates and handling missing values.
+
+</div>
+
+### 2. Data Transformation & Analysis
+
+<div align="justify">
+
+- Identified top 5 most popular product categories based on the number of products sold.  
+- Calculated total revenue from all product sales over three years.  
+- Merged marketing funnel dataset with main dataset to determine how many sellers successfully passed the SR stage.  
+- Measured total orders, total customers, and total products sold from sellers who passed the SR stage.  
+- Analyzed order status distribution to examine the proportion of delivered, canceled, and other orders.  
+- Conducted time series analysis to identify trends and fluctuations in order volume over time.  
+- Created a geographical distribution analysis of customers based on shipping locations.
+
+</div>
+
+### 3. Visualization & Insights
+
+<div align="justify">
+
+- Designed **interactive dashboards** using **Looker Studio**.  
+- Developed **time series charts**, **order status distribution charts**, and **customer location maps**.
+
+</div>
+
+### Conclusion
+
+<div align="justify">
+
+This analysis provides insights into Olist's sales trends, popular product categories, seller performance, and customer distribution. By integrating data from the marketing funnel, we can further understand seller progression and their impact on total sales.
+
+</div>
+
+## Tech Stack
+
+<div align="justify">
+
+- **BigQuery**: Data Warehouse  
+- **Google Cloud Storage**: Object storage service  
+- **Docker**: Containerization  
+- **Apache Spark**: Batch Processing  
+- **Apache Arrow**: Optimized and merged parquet files  
+- **dlt**: Data Loading tool  
+- **Kestra**: Orchestration  
+- **dbt**: Data Transformation tool  
+- **Looker Studio**: Data visualization  
+
+</div>
+
+## Prerequisites
+
+<div align="justify">
+
+To successfully run this project, ensure you have the following tools and services set up:
+
+- **Google Cloud Platform (GCP)** Account – Required for using BigQuery as the data warehouse and Google Cloud Storage for storing raw datasets.  
+- **Docker** – To containerize and manage the execution of different data processing components.  
+- **Apache Spark** – For batch processing and handling large-scale data transformations.  
+- **Apache Arrow** – Optimized in-memory data format to process and merge Parquet files efficiently.  
+- **dlt (Data Loading Tool)** – To facilitate seamless data ingestion and loading.  
+- **Kestra** – For orchestrating data workflows and automating ETL/ELT pipelines.  
+- **dbt (Data Build Tool)** – To perform data transformations and manage the data modeling layer.  
+- **Looker Studio** – For visualizing the insights extracted from the processed data.
+
+Additionally, make sure you have:
+
+1. Python 3.x installed (if custom scripts or dbt models are used).  
+2. Proper authentication and access permissions to Google Cloud services (BigQuery, GCS).
+
+</div>
+
+## Datasets
+
+<div align="justify">
+
+- Main Datasets: [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)  
+- Marketing Funnel Datasets: [Marketing Funnel Datasets](https://www.kaggle.com/datasets/olistbr/marketing-funnel-olist)
+
+</div>
+
+## Main Process
+
+<div align="justify">
+
+**1. Setting Up Kestra Workflow Orchestration**  
+The first step in the pipeline is to install and run Kestra for workflow orchestration using Docker.  
+**2. Setting Up Google Cloud Platform (GCP) in Kestra**  
+Next, we configure Google Cloud Storage (GCS) and BigQuery in Kestra to facilitate data storage and processing.  
+**3. Creating GCS Buckets & BigQuery Dataset + Raw Data Extraction**  
+Once GCP is set up in Kestra, the next step is to create:
+
+- A Google Cloud Storage (GCS) bucket to serve as a data lake.
+
+- A BigQuery dataset to store structured data for analysis.
+
+The project-1.yml file in the Kestra directory handles:
+
+1. GCP setup (creating the necessary storage & database resources).
+2. Extracting raw datasets and uploading them to GCS for further processing.
+
+**4. Loading Raw Dataset from GCS (Data Lake) to BigQuery (Data Warehouse)**  
+In this stage, the raw dataset stored in Google Cloud Storage (GCS) is loaded into BigQuery using a Python script.    
+*Step 1: Batch Processing with Apache Spark*  
+  - Apache Spark is used for efficient batch processing.
+  - The raw dataset is repartitioned to ensure parallel execution and optimal resource utilization.
+  - A fixed schema is defined at the beginning to enforce data consistency before ingestion into BigQuery.  
+      
+*Step 2: Optimized Parquet Processing with Apache Arrow*  
+  - The partitioned Spark DataFrame is written as multiple Parquet files.
+  - Apache Arrow merges these partitioned Parquet files into a single optimized Parquet file.
+  - This step improves query performance and reduces storage overhead.  
+    
+*Step 3: Efficient Data Loading with DLT*  
+  - The merged Parquet file is then passed to DLT (Data Loading Tool).
+  - DLT ensures optimized ingestion into BigQuery by handling schema mapping and efficient bulk loading.
+  - This step significantly enhances the performance and reliability of the ELT pipeline.
+
+Note: By following this structured workflow, the data loading process remains scalable, efficient, and optimized for large datasets. 🚀  
+**5. Data Transformation with dbt**  
+After loading the raw dataset into BigQuery, the next step is to perform data transformation using dbt (Data Build Tool).    
+*Step 1: Creating Dimensional and Fact Tables*
+  - The transformation process follows a dimensional modeling approach, separating dimension tables (e.g., dim_orders_details, dim_geolocation_customers) and fact tables (e.g., facts_orders_customer).
+  - Key transformations include:
+    - Aggregating total orders and revenue.
+    - Joining multiple datasets (orders, payments, sellers, customers).
+    - Extracting and standardizing product categories.
+
+*Step 2: Data Cleaning and Standardization*
+  - Product category names are cleaned and formatted using a custom dbt macro to ensure consistency (e.g., converting construction_tools_safety to Construction Tools Safety).
+  - Payment types are categorized using a dbt macro (get_payment_type.sql).
+  - Order statuses and shipping details are validated to ensure accurate reporting.
+
+*Step 3: Filtering Data for Marketing Funnel Analysis*
+  - Since the marketing funnel dataset covers only June 1, 2017 – June 1, 2018, the analysis filters relevant orders and sellers from this period.
+  - The number of sellers who passed the consultant stage (SR) is identified and linked with total orders and customers.
+
+*Step 4: Materializing Data Models*
+  - dbt models are incrementally updated to optimize query performance.
+  - Final models include:
+    - Marts tables (marts_sold_products, marts_geolocation_olist) for aggregated insights.
+    - Time series transformations for trend analysis.
+    - Order status percentage calculations for visualization.
+
+By leveraging dbt, the data pipeline remains scalable, modular, and efficient, ensuring high-quality data for downstream analytics and visualization. 🚀
+
+</div>
+
+## Visualization
+
+<div align="justify">
+
+Once the data has been successfully transformed and stored in BigQuery, the next step is to visualize insights using Looker Studio. The key objectives of this visualization phase are:
+1. Connecting to BigQuery
+   - Set up a connection between Looker Studio and the processed tables in BigQuery.
+   - Ensure that key fact and dimension tables are properly structured for reporting.
+2. Building Dashboards & Reports
+   - Top 5 Popular Product Categories: A tabular or ranking table showing the most purchased product categories from 2016 to 2018.
+   - Total Revenue Analysis: A horizontal bar chart displaying revenue trends across the three years.
+   - Seller Performance in Marketing Funnel: A dashboard showing the number of sellers who passed the consultant stage (SR) and their corresponding sales data.
+   - Order Status Distribution: A pie chart or stacked bar chart visualizing the percentage breakdown of order statuses.
+   - Time-Series Order Trends: A line chart representing order trends over time, highlighting seasonality and sales peaks.
+   - Geographical Customer & Seller Distribution: A map visualization displaying customer and seller locations, helping to understand regional sales performance.
+3. Customizing Reports
+   - Rename columns to user-friendly names for better readability
+   - Optimize dashboard performance by using pre-aggregated tables in BigQuery to reduce query execution time.
+4. Sharing & Monitoring
+   - Publish the dashboard and share it with stakeholders.
+   - Schedule automated report updates to reflect the latest data.
+
+This visualization step ensures that the insights derived from the data pipeline are effectively communicated to decision-makers, enabling data-driven strategies for business growth.
+
+</div>
+
+🔍 **Explore the Source Code & Project Details** 
+
+<div align="justify">
+
+For the full source code and deeper insights into the project, feel free to visit the GitHub repository: [Olist E-Commerce Insights](https://github.com/nozpera/Olist-E-Commerce-Insights)
+
+</div>
