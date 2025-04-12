@@ -7,7 +7,7 @@ export default function HomeSubline() {
       <Typewriter
         words={[
           "Ahmad Ryan Permana.",
-          "a Data Scientist at Empirix Research.",
+          "Data Scientist at Empirix Research.",
           "Engineer by Nature.",
           "Scientist by Passion."
         ]}

@@ -124,7 +124,7 @@ const about = {
       {
         company: "Ambis Ikigai",
         timeframe: "2020 - 2021",
-        role: "High School Educator Specializing in Quantitative Sciences and General Reasoning",
+        role: "High School Educator Specializing",
         achievements: [
           <>
             Taught Quantitative Science and General Reasoning to high school students preparing for university 
@@ -156,7 +156,14 @@ const about = {
       {
         title: "Data Engineering Zoomcamp",
         issuer: "DataTalksClub",
-        description: "Completed hands-on projects on data pipelines, orchestration, and BigQuery.",
+        description: [
+          <>
+            Covers setting up infrastructure and workflow automation using tools like Docker, Terraform, GCP, and Airflow/Kestra, along with batch and streaming data ingestion using Apache Spark and Kafka.
+          </>,
+          <>
+            Involves transforming data with dbt, storing it in data warehouses like BigQuery, and creating visualizations and analytics using Metabase or Google Data Studio, while following best practices in data modeling and testing.
+          </>,
+        ],
         link: "https://link-to-certificate.com/zoomcamp",
       },
       {
